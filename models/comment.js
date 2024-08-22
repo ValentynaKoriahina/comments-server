@@ -75,4 +75,27 @@ Comment.getAllCommentsWithReplies = async function() {
   return commentsTree;
 };
 
+Comment.addComment = async function({ username, email, content, parentId = null }) {
+  try {
+    const newComment = await Comment.create({
+      username,
+      email,
+      content,
+      parentId,
+      createdAt: new Date()
+    });
+
+    if (newComment) {
+      console.log('Комментарий успешно добавлен:', newComment);
+      return newComment;
+    } else {
+      throw new Error('Не удалось создать комментарий');
+    }
+  } catch (error) {
+    console.error('Ошибка при добавлении комментария:', error);
+    throw error;
+  }
+};
+
+
 module.exports = Comment;
