@@ -19,6 +19,10 @@ const Comment = sequelize.define('Comment', {
     type: DataTypes.TEXT,
     allowNull: false
   },
+  filename: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },   
   createdAt: {
     type: DataTypes.DATE,
     allowNull: false,
@@ -80,18 +84,19 @@ Comment.getAllCommentsWithReplies = async function() {
   return commentsTree;
 };
 
-Comment.addComment = async function({ username, email, content, parentId = null }) {
+Comment.addComment = async function({ username, email, content, parentId = null, filename = null }) {
   try {
     const newComment = await Comment.create({
       username,
       email,
       content,
       parentId,
+      filename,
       createdAt: new Date()
     });
 
     if (newComment) {
-      console.log('Комментарий успешно добавлен:', newComment);
+      console.log('Комментарий успешно добавлен');
       return newComment;
     } else {
       throw new Error('Не удалось создать комментарий');

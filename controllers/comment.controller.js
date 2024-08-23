@@ -14,19 +14,21 @@ async function getComments(req, res, next) {
 
 async function addComment(req, res, next) {
   const { username, email, content, parentId } = req.body;
+  const { filename } = req.file;
 
   if (!username || !email || !content) {
     return res.status(400).json({ error: 'Отсутствуют обязательные поля' });
   }
 
   try {
-    const newComment = await Comment.addComment({ username, email, content, parentId });
+    const newComment = await Comment.addComment({ username, email, content, parentId, filename});
     res.status(201).json(newComment);
   } catch (error) {
     console.error('Ошибка:', error);
     res.status(500).json({ error: 'Ошибка сервера' });
   }
 }
+
 
 module.exports = {
   getComments,
