@@ -47,7 +47,12 @@ Comment.getCommentWithReplies = async function(commentId) {
       {
         model: Comment,
         as: 'replies',
-        order: [['createdAt', 'ASC']]
+        order: [['createdAt', 'ASC']],
+        include: [{ 
+          model: Comment, 
+          as: 'replies', 
+          include: [{ model: Comment, as: 'replies' }]
+        }]
       }
     ]
   });
@@ -56,7 +61,7 @@ Comment.getCommentWithReplies = async function(commentId) {
     const replies = await Promise.all(
       comment.replies.map(reply => this.getCommentWithReplies(reply.id))
     );
-    comment.replies = replies;
+    comment.replies = replies.flat();
   }
 
   return comment;
@@ -96,6 +101,5 @@ Comment.addComment = async function({ username, email, content, parentId = null 
     throw error;
   }
 };
-
 
 module.exports = Comment;
