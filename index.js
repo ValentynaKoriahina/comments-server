@@ -18,6 +18,8 @@ const commentRoutes = require('./routes/comment.routes');
 app.use('/api', commentRoutes);
 const fileRoutes = require('./routes/file.routes');
 app.use('/api', fileRoutes);
+const validationRoutes = require('./routes/validation.routes');
+app.use('/api', validationRoutes);
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
