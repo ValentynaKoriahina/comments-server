@@ -15,21 +15,21 @@ async function getComments(req, res, next) {
 }
 
 async function addComment(req, res, next) {
-  const { username, email, content, parentId } = req.body;
 
-  let filename;
-
-  if (req.file) {
-    const filename = req.file[filename];
-  }
-  
+  const { username, email, content, parentId, homepage } = req.body;
 
   if (!username || !email || !content) {
     return res.status(400).json({ error: 'Отсутствуют обязательные поля' });
   }
 
+  let filename;
+
+  if (req.file) {
+    filename = req.file['filename'];
+  }
+
   try {
-    const newComment = await Comment.addComment({ username, email, content, parentId, filename });
+    const newComment = await Comment.addComment({ username, email, content, parentId, homepage, filename });
     res.status(201).json(newComment);
   } catch (error) {
     console.error('Ошибка:', error);
@@ -38,7 +38,6 @@ async function addComment(req, res, next) {
 }
 
 async function getCommentFile(req, res, next) {
-  console.log('fileStorage!!!')
   const filename = req.params.filename;
   const filePath = path.join(__dirname, '../', 'fileStorage/commentsUploads', filename);
 

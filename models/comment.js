@@ -22,6 +22,10 @@ const Comment = sequelize.define('Comment', {
   filename: {
     type: DataTypes.TEXT,
     allowNull: true
+  },
+  homepage: {
+    type: DataTypes.TEXT,
+    allowNull: true
   },   
   createdAt: {
     type: DataTypes.DATE,
@@ -84,13 +88,14 @@ Comment.getAllCommentsWithReplies = async function() {
   return commentsTree;
 };
 
-Comment.addComment = async function({ username, email, content, parentId = null, filename = null }) {
+Comment.addComment = async function({ username, email, content, parentId = null, homepage = null, filename = null }) {
   try {
     const newComment = await Comment.create({
       username,
       email,
       content,
       parentId,
+      homepage,
       filename,
       createdAt: new Date()
     });
