@@ -1,10 +1,16 @@
+require('dotenv').config();
 const { Sequelize } = require('sequelize');
 
-const sequelize = new Sequelize('comments_app', 'comments_app', '123456', {
-    host: 'localhost',
-    dialect: 'mysql',
-    logging: false
-});
+const sequelize = new Sequelize(
+    process.env.DB_NAME || 'comments_app',
+    process.env.DB_USER || 'comments_app',
+    process.env.DB_PASSWORD || '123456',
+    {
+        host: process.env.DB_HOST || 'localhost',
+        dialect: 'mysql',
+        logging: process.env.DB_LOGGING === 'true' ? console.log : false
+    }
+);
 
 sequelize.authenticate()
     .then(() => {

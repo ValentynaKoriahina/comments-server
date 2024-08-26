@@ -8,7 +8,6 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 
 
-
 dotenv.config();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -24,7 +23,7 @@ const validationRoutes = require('./routes/validation.routes');
 app.use('/api', validationRoutes);
 
 
-// Подключаем Socket.io к серверу
+// Подключаем Socket.io
 const configureSocket = require('./config/socket');
 const { getConnectedUsers } = require('./servises/socketHandler');
 const socket = configureSocket(server);
