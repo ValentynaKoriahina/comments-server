@@ -5,8 +5,10 @@ const http = require('http');
 const app = express();
 const server = http.createServer(app);
 const cors = require('cors');
-const path = require('path')
 const dotenv = require('dotenv');
+
+
+
 dotenv.config();
 
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -20,6 +22,13 @@ const fileRoutes = require('./routes/file.routes');
 app.use('/api', fileRoutes);
 const validationRoutes = require('./routes/validation.routes');
 app.use('/api', validationRoutes);
+
+
+// Подключаем Socket.io к серверу
+const configureSocket = require('./config/socket');
+const { getConnectedUsers } = require('./servises/socketHandler');
+const socket = configureSocket(server);
+getConnectedUsers(socket);
 
 const PORT = process.env.PORT || 3000;
 server.listen(PORT, () => {
