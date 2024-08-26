@@ -11,6 +11,6 @@ const { validateInput } = require('../middleware/securityValidator');
 
 
 router.get('/comments', commentController.getComments);
-router.post('/comment', validateInput, uploader.upload.single('file'), commentController.addComment);
+router.post('/comment', uploader.upload.single('file'), validateInput, commentController.addComment);
 
 module.exports = router;
