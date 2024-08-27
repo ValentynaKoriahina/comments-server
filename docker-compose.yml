@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=db
+      - DB_NAME=comments_app
+      - DB_USER=comments_app
+      - DB_PASSWORD=123456
+      - DB_LOGGING=false
+      - CORS_ORIGIN=http://localhost:5173
+      - SESSION_SECRET=session-secret
+    depends_on:
+      - db
+
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: comments_app
+      MYSQL_USER: comments_app
+      MYSQL_PASSWORD: 123456
+    ports:
+      - "3307:3307"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
