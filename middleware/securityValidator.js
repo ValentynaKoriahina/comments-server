@@ -20,6 +20,7 @@ function validateInput(req, res, next) {
 
     const hasXSS = (input) => {
         const sanitized = xss(input, xssOptions);
+
         return input !== sanitized; // Если !==, были недопустимые теги
     };
 

@@ -7,6 +7,7 @@ const server = http.createServer(app);
 const cors = require('cors');
 const dotenv = require('dotenv');
 const session = require('express-session');
+const path = require('path');
 
 dotenv.config();
 
@@ -25,6 +26,9 @@ app.use(session({
   saveUninitialized: false,
   cookie: { secure: false }
 }));
+
+
+app.use(express.static('dist'));
 
 const commentRoutes = require('./routes/comment.routes');
 app.use('/api', commentRoutes);
