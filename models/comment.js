@@ -42,6 +42,7 @@ const Comment = sequelize.define('Comment', {
     onDelete: 'CASCADE'
   }
 }, {
+  tableName: 'comments',
   timestamps: false
 });
 
