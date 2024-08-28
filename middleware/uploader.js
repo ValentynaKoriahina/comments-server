@@ -2,15 +2,22 @@ const multer = require("multer");
 const fs = require('fs');
 const path = require('path');
 
-// Storage setup in Multer
+/**
+ * Назначение: для обработки загрузки файлов с использованием библиотеки Multer.
+ * Он настраивает хранилище для загружаемых файлов, проверяет допустимые MIME-типы, 
+ * и обеспечивает сохранение файлов с уникальными именами в определенной директории.
+ * 
+ */
+
+// Настройка хранилища в Multer
 const storage = multer.diskStorage({
-  // Download directory
-  destination: (req, file, callback) => {
+
+    destination: (req, file, callback) => {
     const uploadPath = path.join('fileStorage', 'commentsUploads');
     fs.mkdirSync(uploadPath, { recursive: true });
     callback(null, uploadPath);
   },
-  // Valid file extensions
+  // Проверка и задание имени файла с учетом допустимых расширений
   filename: (req, file, callback) => {
     const allowedMimeTypes = [
       "text/plain",
@@ -21,7 +28,7 @@ const storage = multer.diskStorage({
 
     const originalName = file.originalname;
     const mimetype = file.mimetype;
-    // Checking a file for a valid extension and assigning a unique name
+    // Проверка MIME-типа файла и присвоение уникального имени
     if (allowedMimeTypes.includes(mimetype)) {
       const uniqueName = `${Date.now()}_${originalName}`;
       callback(null, uniqueName);
@@ -31,7 +38,6 @@ const storage = multer.diskStorage({
   },
 });
 
-// Create multer instance for the specific folder
 const upload = multer({ 
   storage: storage,
   fileFilter: (req, file, callback) => {
@@ -42,6 +48,7 @@ const upload = multer({
       "image/png"
     ];
 
+    // Проверка типа файла с использованием фильтра
     if (allowedMimeTypes.includes(file.mimetype)) {
       callback(null, true);
     } else {

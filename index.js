@@ -28,7 +28,7 @@ app.use(session({
 }));
 
 
-app.use(express.static('dist'));
+app.use(express.static('client'));
 
 const commentRoutes = require('./routes/comment.routes');
 app.use('/api', commentRoutes);
